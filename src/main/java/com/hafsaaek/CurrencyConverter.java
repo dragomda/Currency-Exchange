@@ -1,6 +1,7 @@
 package com.hafsaaek;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.BufferedReader;
@@ -10,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Scanner;
@@ -19,8 +21,17 @@ public class CurrencyConverter {
 
     public static final String API_CURRENCY_TOKEN = "api.currency.token";
 
-    private static String API_Key = System.getProperty(API_CURRENCY_TOKEN);
+    private static String API_Key;
+    static {
+        API_Key = System.getProperty(API_CURRENCY_TOKEN);
+        Objects.requireNonNull(API_Key, String.format("Please set the Currency API key using: -D%s=<key>", API_CURRENCY_TOKEN));
 
+    }
+    private final static String[] supportedCurrencies = new String[] {
+            "GBP",
+            "USD",
+            //...
+    };
 
     private final static ObjectMapper objectMapper = new ObjectMapper();
 
@@ -28,7 +39,7 @@ public class CurrencyConverter {
         objectMapper.registerModule(new JavaTimeModule());
     }
 
-    public String getAPI_Key() {
+    public static String getAPI_Key() {
         return Objects.requireNonNull(API_Key, String.format("Please set the Currency API key using: -D%s=<key>", API_CURRENCY_TOKEN));
     }
 
@@ -45,11 +56,14 @@ public class CurrencyConverter {
             HashMap<Integer, String> currencyCodeMap = new HashMap<>();
 
             // Add currency codes to the HashMap with integers 1-10 as keys
-            currencyCodeMap.put(1, "GBP");
-            currencyCodeMap.put(2, "USD");
-            currencyCodeMap.put(3, "KSH");
-            currencyCodeMap.put(4, "EUR");
-            currencyCodeMap.put(5, "JPY");
+            for(int i = 0; i < supportedCurrencies.length; ++i) {
+                currencyCodeMap.put(i, supportedCurrencies[i]);
+            }
+//            currencyCodeMap.put(1, "GBP");
+//            currencyCodeMap.put(2, "USD");
+//            currencyCodeMap.put(3, "KSH");
+//            currencyCodeMap.put(4, "EUR");
+//            currencyCodeMap.put(5, "JPY");
 
             String fromCode, toCode; // currency codes we want to convert from and to
             double amount; // amount we want to convert 
@@ -105,7 +119,7 @@ public class CurrencyConverter {
     public static void sendHTTPGETRequest(String fromCode, String toCode, double amount) {
 
         // https://api.currencyapi.com/v3/convert?apikey=YOUR_API_KEY&base_currency=BASE_CURRENCY&target_currency=TARGET_CURRENCY&value=AMOUNT
-        String getURL = "https://api.currencyapi.com/v3/latest?apikey=" + API_Key + "&base_currency=" + fromCode + "&target_currency=" + toCode + "&value=" + amount;
+        String getURL = "https://api.currencyapi.com/v3/latest?apikey=" + getAPI_Key() + "&base_currency=" + fromCode + "&target_currency=" + toCode + "&value=" + amount;
         // Test for selecting USD --> GBP
         System.out.println(getURL); // https://api.currencyapi.com/v3/latest?apikey=&base_currency=USD&target_currency=GBP&amount=20.0
 
