@@ -132,7 +132,7 @@ public class CurrencyConverter {
                 System.out.printf("%s/%s - exchange rate: %f%n", fromCode, toCode, exchangeRate);
 
                 // Final output with all doubles to 2 decimal places 
-                System.out.println(df.format(amount) + fromCode + " = " + df.format((amount / exchangeRate)) + toCode);
+                System.out.println(df.format(amount) + fromCode + " = " + df.format((amount * exchangeRate)) + toCode);
             } else {
                 System.out.println("Get request failed with: " + responseCode);
             }
