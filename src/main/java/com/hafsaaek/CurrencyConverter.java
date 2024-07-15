@@ -134,7 +134,7 @@ public class CurrencyConverter {
                 // Final output with all doubles to 2 decimal places 
                 System.out.println(df.format(amount) + fromCode + " = " + df.format((amount * exchangeRate)) + toCode);
             } else {
-                System.out.println("Get request failed with: " + responseCode);
+                System.out.printf("Get request failed with: %d: %s%n", responseCode, httpURLConnection.getResponseMessage());
             }
         } catch (URISyntaxException | IOException e) {
             // TODO Auto-generated catch block
