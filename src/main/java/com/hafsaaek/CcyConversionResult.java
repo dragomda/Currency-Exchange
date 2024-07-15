@@ -3,7 +3,9 @@ package com.hafsaaek;
 import java.util.Map;
 
 public class CcyConversionResult {
-    CcyConversionMeta meta;
+    private CcyConversionMeta meta;
+
+    private Map<String, CcyValue> data;
 
     public CcyConversionMeta getMeta() {
         return meta;
@@ -13,16 +15,6 @@ public class CcyConversionResult {
         this.meta = meta;
     }
 
-//    public CcyConversionData getData() {
-//        return data;
-//    }
-//
-//    public void setData(CcyConversionData data) {
-//        this.data = data;
-//    }
-//
-//    CcyConversionData data;
-
     public Map<String, CcyValue> getData() {
         return data;
     }
@@ -30,6 +22,4 @@ public class CcyConversionResult {
     public void setData(Map<String, CcyValue> data) {
         this.data = data;
     }
-
-    Map<String, CcyValue> data;
 }

@@ -1,7 +1,9 @@
 package com.hafsaaek;
 
 public class CcyValue {
-    String code;
+    private String code;
+
+    private Double value;
 
     public String getCode() {
         return code;
@@ -18,6 +20,4 @@ public class CcyValue {
     public void setValue(Double value) {
         this.value = value;
     }
-
-    Double value;
 }
